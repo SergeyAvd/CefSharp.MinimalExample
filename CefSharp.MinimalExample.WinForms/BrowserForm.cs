@@ -19,11 +19,16 @@ namespace CefSharp.MinimalExample.WinForms
 
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
-
-            browser = new ChromiumWebBrowser("www.google.com")
+            String exeFullPath = Application.ExecutablePath;
+            String uri = "file://" + exeFullPath.Replace("bin\\x64\\Debug\\CefSharp.MinimalExample.WinForms.EXE", "communication.html");
+            browser = new ChromiumWebBrowser(uri)
             {
                 Dock = DockStyle.Fill,
             };
+
+            // Inject JS object into web page environment
+            browser.RegisterJsObject("bound", new BoundObject());
+
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
             browser.LoadingStateChanged += OnLoadingStateChanged;
@@ -148,6 +153,31 @@ namespace CefSharp.MinimalExample.WinForms
             {
                 browser.Load(url);
             }
+        }
+
+        private async void EvalJS(String s) {
+            try
+            {
+                var response = await browser.EvaluateScriptAsync(s);
+                // It is possible to return a callback from JS and have it triggered by .NET when needed
+                if (response.Success && response.Result is IJavascriptCallback)
+                {
+                    response = await((IJavascriptCallback)response.Result).ExecuteAsync("This is a callback from EvaluateJavaScript");
+                }
+
+                String message = (response.Success ? (response.Result ?? "null") : response.Message).ToString();
+                MessageBox.Show("Value from webpage:\n" + message, "Hosting .NET Application", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while evaluating Javascript: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            String script = textBox1.Text;
+            EvalJS(script);            
         }
     }
 }

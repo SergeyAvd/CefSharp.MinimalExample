@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Prototype communication with Host application</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+    // ************ JavaScript goes here ******************
+    function getMessageString() {
+      return $("#msg").val() || "";
+    }
+    function communicateBack1(message) {
+      bound.myMethod(message || "Hello hosting application");
+
+      // It seems like .NET wrapper will check that paramers number actually match,
+      // if it doesn't match it'll throw an exception
+      // Probably need to handle that in .NET code
+      // bound.myMethod(); - this will throw an exception if .NET doesnt default 1st param
+    }
+    function getValueFromHost () {
+      window.alert(bound.myProperty);
+    }
+    function setValueToHost(value) {
+      // Properties are read-only now
+      bound.myProperty = value;
+    }
+    function showMessage(message) {
+      window.alert(message);
+    }
+    // ************** END OF JavaScript *******************
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hello, world!</h1>
+
+      <div class="form-group">
+        <label for="msg">Message:</label>
+        <input type="text" class="form-control" id="msg" value="Hello, Hosting Application!">
+        <button type="button" class="btn btn-lg btn-primary" onclick="communicateBack1(getMessageString())">
+          Post message to Host</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-lg btn-default" onclick="getValueFromHost()">
+          Get value from Host</button>
+        <button type="button" class="btn btn-lg btn-danger" onclicn="setValueToHost(getMessageString())">
+          Change value in Host (doesn't work)</button>
+      </div>
+      <!--
+      <button type="button" class="btn btn-lg btn-success">Info</button>
+      <button type="button" class="btn btn-lg btn-info">Info</button>
+      <button type="button" class="btn btn-lg btn-warning">Warning</button>
+      <button type="button" class="btn btn-lg btn-danger">Danger</button>
+      <button type="button" class="btn btn-lg btn-link">Link</button>-->
+    </div>
+  </body>
+</html>

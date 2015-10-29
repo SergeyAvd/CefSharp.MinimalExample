@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.MinimalExample.Wpf", "CefSharp.MinimalExample.Wpf\CefSharp.MinimalExample.Wpf.csproj", "{BE4C3AD0-8DA2-4246-8C63-EEEB7DC197BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.MinimalExample.WinForms", "CefSharp.MinimalExample.WinForms\CefSharp.MinimalExample.WinForms.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.MinimalExample.OffScreen", "CefSharp.MinimalExample.OffScreen\CefSharp.MinimalExample.OffScreen.csproj", "{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A7FF18CB-81F1-4AE1-A13D-25F827862599}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
