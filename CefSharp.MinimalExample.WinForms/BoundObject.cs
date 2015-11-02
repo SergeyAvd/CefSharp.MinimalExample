@@ -16,9 +16,11 @@ namespace CefSharp.MinimalExample.WinForms
             get { return _message; }
             set { _message = value; }
         }
-        public void MyMethod(String message)
-        {
+        public void MyMethod(String message) {
             MessageBox.Show("Message from webpage:\n" + message, "Hosting .NET Application", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+        public void PostMessage(String message) {
+            MessageBox.Show("Message from webpage via postMessage API:\n" + message, "Hosting .NET Application", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
     }
 }

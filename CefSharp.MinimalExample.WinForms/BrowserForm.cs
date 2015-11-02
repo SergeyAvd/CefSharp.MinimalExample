@@ -179,5 +179,20 @@ namespace CefSharp.MinimalExample.WinForms
             String script = textBox1.Text;
             EvalJS(script);            
         }
+
+        private void showDevToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            browser.ShowDevTools();
+        }
+
+        // Instrument the top web page to reroute postMessage to the host application via injected object
+        private void button2_Click(object sender, EventArgs e)
+        {
+            String script = "window.originalPostMessage = window.postMessage;" +
+                            "window.postMessage = function (message) {" +
+                            "  bound.postMessage(message);" +
+                            "};";
+            browser.EvaluateScriptAsync(script);
+        }
     }
 }

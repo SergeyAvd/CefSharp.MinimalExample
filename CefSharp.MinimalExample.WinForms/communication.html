@@ -34,6 +34,11 @@
     function showMessage(message) {
       window.alert(message);
     }
+    function postMessageToParent(message) {
+      // "*" - send to a window of any origin - should not be used in production
+      // For the top window window == window.parent
+      window.parent.postMessage(message, "*");
+    }
     // ************** END OF JavaScript *******************
     </script>
   </head>
@@ -52,6 +57,16 @@
           Get value from Host</button>
         <button type="button" class="btn btn-lg btn-danger" onclicn="setValueToHost(getMessageString())">
           Change value in Host (doesn't work)</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-lg btn-success" onclick="postMessageToParent(getMessageString())">
+          postMessage API</button>
+
+        <!-- It is possible to post data structures beyond just basic types.
+             To handle it correctly .NET application should expect these. Otherwise
+             if types don't match it'll throw an exception like now. -->
+        <button type="button" class="btn btn-lg btn-danger" onclick="postMessageToParent({action: 'POST', value: 2})">
+          post object (doesn't work)</button>
       </div>
       <!--
       <button type="button" class="btn btn-lg btn-success">Info</button>
