@@ -194,5 +194,16 @@ namespace CefSharp.MinimalExample.WinForms
                             "};";
             browser.EvaluateScriptAsync(script);
         }
+
+        // Create a custom event in the page with detail showing a custom message
+        private void button3_Click(object sender, EventArgs e)
+        {
+            String message = textBox1.Text;
+            String script = @"var e = new CustomEvent('ARMSG', {
+                                detail: ""." + message  + @".""
+                              });
+                              document.dispatchEvent(e);";
+            browser.EvaluateScriptAsync(script);
+        }
     }
 }

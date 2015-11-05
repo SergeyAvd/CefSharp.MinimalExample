@@ -39,6 +39,25 @@
       // For the top window window == window.parent
       window.parent.postMessage(message, "*");
     }
+    function addEventListenerForButton() {
+      $("#myBtn").on("click", function () {
+        var message = getMessageString();
+        bound.myMethod(message);
+      });
+    }
+    $(document).ready(function () {
+      addEventListenerForButton();
+      $(document).on("ARMSG", function (event) {
+        window.alert(event.originalEvent.detail);
+        //console.log(event.originalEvent.detail);
+      })
+    });
+    function fireCustom(msg){
+      var e = new CustomEvent("ARMSG", {
+          detail: msg
+        });
+      document.dispatchEvent(e);
+    }
     // ************** END OF JavaScript *******************
     </script>
   </head>
@@ -52,13 +71,13 @@
         <button type="button" class="btn btn-lg btn-primary" onclick="communicateBack1(getMessageString())">
           Post message to Host</button>
       </div>
-      <div>
+      <div class="lead">
         <button type="button" class="btn btn-lg btn-default" onclick="getValueFromHost()">
           Get value from Host</button>
         <button type="button" class="btn btn-lg btn-success" onclick="setValueToHost(getMessageString())">
           Change value in Host</button>
       </div>
-      <div>
+      <div class="lead">
         <button type="button" class="btn btn-lg btn-success" onclick="postMessageToParent(getMessageString())">
           postMessage API</button>
 
@@ -67,6 +86,9 @@
              if types don't match it'll throw an exception like now. -->
         <button type="button" class="btn btn-lg btn-danger" onclick="postMessageToParent({action: 'POST', value: 2})">
           post object (doesn't work)</button>
+      </div>
+      <div class="lead">
+        <button type="button" id="myBtn" class="btn btn-lg btn-success">Event</button>
       </div>
       <!--
       <button type="button" class="btn btn-lg btn-success">Info</button>
