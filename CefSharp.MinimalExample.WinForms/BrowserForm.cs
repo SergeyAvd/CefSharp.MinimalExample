@@ -28,6 +28,7 @@ namespace CefSharp.MinimalExample.WinForms
 
             // Inject JS object into web page environment
             browser.RegisterJsObject("bound", new BoundObject());
+            browser.FrameLoadEnd += this.OnFrameLoadEnd;
 
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
@@ -186,7 +187,7 @@ namespace CefSharp.MinimalExample.WinForms
         }
 
         // Instrument the top web page to reroute postMessage to the host application via injected object
-        private void button2_Click(object sender, EventArgs e)
+        private void InstrumentPostMessage()
         {
             String script = "window.originalPostMessage = window.postMessage;" +
                             "window.postMessage = function (message) {" +
@@ -204,6 +205,14 @@ namespace CefSharp.MinimalExample.WinForms
                               });
                               document.dispatchEvent(e);";
             browser.EvaluateScriptAsync(script);
+        }
+
+        public void OnFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            if (e.Frame.IsMain)
+            {
+                InstrumentPostMessage();
+            }
         }
     }
 }
